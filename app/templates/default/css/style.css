@@ -1,0 +1,24 @@
+/* Your styles here */
+.modal-open {
+    overflow: scroll !important;
+}
+
+.ui-datepicker{
+    z-index:1151 !important;
+}
+
+.map-dashboard{
+    visibility: visible;
+}
+
+.select-control{
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+@media screen and (max-width: 600px) {
+    .map-dashboard {
+        transform:rotate(90deg);
+        width: 150%;
+    }
+}

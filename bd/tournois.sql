@@ -1,0 +1,1 @@
+CREATE TABLE `baseprojet`.`user` ( `id` INT NOT NULL AUTO_INCREMENT , `mail` VARCHAR(255) NOT NULL , `nom` VARCHAR(255) NOT NULL , `prenom` VARCHAR(255) NOT NULL , `password` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;

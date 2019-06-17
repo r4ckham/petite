@@ -1,0 +1,7 @@
+app/Core/Config.php
+.DS_Store
+.buildpath
+.project
+.settings
+.idea/workspace.xml
+errorlog.html
