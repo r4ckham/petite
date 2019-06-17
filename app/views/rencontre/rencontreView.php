@@ -26,9 +26,9 @@
 
             <div class="form-group">
                 <label>{{rencontre.equipe_dom}}</label><br>
-                <el-input-number v-model="scoreDom" :step="1" :min="0" @change="scoreMatch"></el-input-number><br>
+                <el-input-number v-model="scoreDom" :step="1" :min="0" @change="scoreMatch" :disabled="isDisabled"></el-input-number><br>
                 <label>{{rencontre.equipe_ext}}</label><br>
-                <el-input-number v-model="scoreExt" :step="1" :min="0" @change="scoreMatch"></el-input-number>
+                <el-input-number v-model="scoreExt" :step="1" :min="0" @change="scoreMatch" :disabled="isDisabled"></el-input-number>
             </div>
 
             <hr>

@@ -13,6 +13,7 @@ var _app = {
             min : 0,
             sec : 0,
         },
+        isDisabled : true,
     },
 
     mounted : function(){
@@ -55,6 +56,10 @@ var _app = {
                 self.hasBeenPlayed = (data.rencontre.has_been_played == "0") ? false : true;
                 self.dateRencontre = new Date(data.rencontre.date_rencontre);
 
+                if(self.enCours){
+                    self.isDisabled = false;
+                }
+
 
 
                 setInterval(function () {
@@ -87,8 +92,10 @@ var _app = {
                 self.hasBeenPlayed = (data.rencontre.has_been_played == "0") ? false : true;
                 self.dateRencontre = new Date(data.rencontre.date_rencontre);
 
-
-
+                if(self.enCours){
+                    self.isDisabled = false;
+                }
+                
                 setInterval(function () {
                     self.chrono();
                 }, 1000);
@@ -102,6 +109,7 @@ var _app = {
 
             self.enCours = false;
             self.hasBeenPlayed = true;
+            self.isDisabled = true;
 
 
             var form = {
@@ -118,6 +126,11 @@ var _app = {
         },
 
         scoreMatch : function () {
+
+            if(!this.enCours){
+                alert("Match pas en cours !");
+            }
+
             var self = this;
             var form = {
                 action : "score-rencontre",
