@@ -134,42 +134,61 @@ class RencontreController extends Controller
     {
         $model = new RencontreModel();
         $ret = $model->checkRencontres();
+        //var_dump($ret).die();
 
         $temp = [];
         $i = 0;
 
+        $loosers = [];
+
         if(empty($ret) && hTournois::getPhase() != hTournois::getPhaseMax())
         {
             $rencontres = $model->getFinishedFromPreviousPhase();
+            //var_dump(hTournois::getPhase());
+            //var_dump($rencontres).die();
 
             foreach ($rencontres as $index=>$rencontre){
 
                 $idExt = $rencontre->getIdEquipeExt();
                 $idDom = $rencontre->getIdEquipeDom();
 
-                if($index % 2 == 0){
+                $scoreExt = $rencontre->getScoreEquipeExt();
+                $scoreDom = $rencontre->getScoreEquipeDom();
 
-                    if($rencontre->getScoreEquipeExt() > $rencontre->getScoreEquipeDom() ){
-                        $temp[$i][] = $idExt;
-                    }else{
-                        $temp[$i][] = $idDom;
-                    }
+                if($scoreExt > $scoreDom ){
+                    $temp[$i][] = $idExt;
                 }else{
+                    $temp[$i][] = $idDom;
+                }
 
-                    if($rencontre->getScoreEquipeExt() > $rencontre->getScoreEquipeDom() ){
-                        $temp[$i][] = $idExt;
-                    }else{
-                        $temp[$i][] = $idDom;
-                    }
+                if($index % 2 != 0){
                     $i++;
+                }
+
+                if(($rencontre->getPhaseTournois() + 1) == hTournois::getPhaseMax()){
+                    if($scoreExt < $scoreDom){
+                        array_push($loosers , $idExt);
+                    }else{
+                        array_push($loosers , $idDom);
+                    }
                 }
             }
 
+            //var_dump($loosers).die();
+
             $rencontres = $model->getMatchNotSeted();
+            $nbRencontre = count($rencontres);
 
             foreach ($rencontres as $index=>$rencontre){
                 $model->updateIdTeams($rencontre->getIdRencontre() , $temp[$index][0] , $temp[$index][1]);
+
+                if($rencontre->getPhaseTournois() == hTournois::getPhaseMax() && $index > 0){
+                    $model->updateIdTeams($rencontre->getIdRencontre() , $loosers[0] , $loosers[1]);
+                }
             }
+
+            //var_dump($rencontres);
+            //var_dump($temp).die();
 
             hTournois::setPhase(hTournois::getPhase() + 1);
 

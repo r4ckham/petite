@@ -102,6 +102,20 @@ class RencontreModel extends Model
         return $this->db->select($sql,$ps,\PDO::FETCH_CLASS,RencontreEntite::class);
     }
 
+    /**
+     * @return RencontreEntite|array
+     */
+    public function getCurrentPhase()
+    {
+        $ps = [
+            ":id" => ID_TOURNOIS
+        ];
+        $sql = "SELECT max($this->phase) FROM $this->vueInner ";
+        $sql.= "where $this->f_id_tournois = :id";
+
+        return $this->db->select($sql,$ps,\PDO::FETCH_NUM , null);
+    }
+
     public function getRencontresEnCours()
     {
         $sql = "SELECT * FROM $this->table ";

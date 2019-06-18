@@ -47,10 +47,14 @@ class LoginController extends Controller
 
         $model = new RencontreModel();
         $rencontre = $model->getRencontresFromVueByIdTournois()[0];
+        $phase = $model->getCurrentPhase();
 
         hTournois::setArbitreMail($rencontre->getMailArbitre());
-        hTournois::setPhaseMax($tournois->getPhaseMax());
-        hTournois::setPhase($rencontre->getPhaseTournois());
+        hTournois::setPhaseMax((int)$tournois->getPhaseMax());
+        hTournois::setPhase((int)$phase[0][0]);
+
+        //var_dump(hTournois::getPhase());
+        //var_dump(hTournois::getPhaseMax());
 
         View::renderTemplate('header', $data);
         View::render('login/login', $data);
